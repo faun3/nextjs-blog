@@ -29,8 +29,10 @@ const getData = async (id: string) => {
 };
 
 export async function generateMetadata({ params }: ParamsProp) {
+  const data = await getData(params.id);
   return {
-    title: "wait",
+    title: `${data.title} - dremt`,
+    description: `${data.desc} from dremt Blogs`,
   };
 }
 
