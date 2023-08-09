@@ -23,4 +23,4 @@ const PostSchema = new Schema<PostInterface>(
 );
 
 // prevents ModelOverride error
-export default model<PostInterface>("Post", PostSchema) || mongoose.models.Post;
+export default mongoose.models.Post || model<PostInterface>("Post", PostSchema);
