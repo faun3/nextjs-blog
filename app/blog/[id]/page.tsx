@@ -1,37 +1,39 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import { PostInterface } from "@/models/Post";
 
 interface ParamsProp {
   params: {
-    id: number;
+    id: string;
   };
 }
 
-interface Post {
-  userId: number;
-  id: number;
-  title: string;
-  body: string;
-}
-
 const Post = async ({ params }: ParamsProp) => {
-  const data = await fetch(
-    `https://jsonplaceholder.typicode.com/posts/${params.id}`,
-    { cache: "no-cache" }
-  );
+  const data = await fetch(`http://localhost:3000/api/posts`, {
+    cache: "no-store",
+  });
 
   if (!data.ok) {
     return notFound();
   }
 
-  const info = (await data.json()) as Post;
+  const res = await data.json();
+  const parsed: PostInterface[] = JSON.parse(res);
+
+  const filtered = parsed.filter((obj) => obj._id === params.id);
+
+  const info = filtered[0];
+
+  if (!info) {
+    return notFound();
+  }
 
   return (
     <>
       <div className="flex flex-row gap-10 grow-0">
         <div className="basis-1/2">
           <h1 className="font-bold text-4xl mb-8">{info.title}</h1>
-          <p className="text-lg mb-4">{info.body}</p>
+          <p className="text-lg mb-4">{info.desc}</p>
           <div className="flex flex-row items-center gap-4">
             <div>
               <svg
@@ -86,26 +88,19 @@ const Post = async ({ params }: ParamsProp) => {
                 </g>
               </svg>
             </div>
-            <span className="font-semibold text-lg">Georgia O</span>
+            <span className="font-semibold text-lg">{info.username}</span>
           </div>
         </div>
         <div className="relative w-[500px] h-[300px] overflow-hidden rounded-lg">
           <Image
-            src={
-              "https://images.pexels.com/photos/17827647/pexels-photo-17827647/free-photo-of-ijsland.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-            }
+            src={info.img}
             alt="mountains"
             className="object-cover"
             fill={true}></Image>
         </div>
       </div>
       <div>
-        <p className="text-slate-400">
-          {info.body}
-          <br />
-          <br />
-          {info.body}
-        </p>
+        <p className="text-slate-400">{info.content}</p>
       </div>
     </>
   );
