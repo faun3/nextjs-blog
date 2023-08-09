@@ -10,7 +10,7 @@ import { useContext } from "react";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "dreamt - design & blogging",
+  title: "dremt - design & blogging",
   description: "next.js 13 bb",
 };
 
@@ -22,7 +22,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.className} max-w-100vw overflow-x-hidden bg-slate-950 text-slate-300 `}>
+        className={`${inter.className} max-w-100vw overflow-x-hidden bg-slate-950 text-slate-300 `}
+      >
         <ThemeProvider>
           <div className="container">
             <Navbar />
