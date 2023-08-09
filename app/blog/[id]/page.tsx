@@ -8,6 +8,10 @@ interface ParamsProp {
   };
 }
 
+// this is insanely stupid
+//
+// refactor this ASAP into a mongo query that only returns
+// the post with the id in the url params
 const Post = async ({ params }: ParamsProp) => {
   const data = await fetch(`http://localhost:3000/api/posts`, {
     cache: "no-store",
