@@ -6,7 +6,7 @@ export const GET = async (req: Request) => {
   try {
     await connect();
     const posts: PostInterface[] = await Post.find();
-    return NextResponse.json(posts, { status: 200 });
+    return NextResponse.json(JSON.stringify(posts), { status: 200 });
   } catch (err) {
     return new NextResponse("db error", { status: 500 });
   }
