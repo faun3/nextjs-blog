@@ -40,7 +40,7 @@ const Navbar = () => {
   return (
     <div className="h-[100px] flex flex-row justify-between items-center">
       <Link href={"/"} className="text-2xl font-bold">
-        lamamia
+        dremt
       </Link>
       <div className="flex flex-row items-center gap-5">
         <DarkModeToggle></DarkModeToggle>
