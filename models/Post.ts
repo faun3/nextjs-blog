@@ -4,6 +4,7 @@ import { model } from "mongoose";
 const { Schema } = mongoose;
 
 export interface PostInterface {
+  _id: string;
   title: string;
   desc: string;
   img: string;
