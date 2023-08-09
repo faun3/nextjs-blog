@@ -13,7 +13,7 @@ interface ParamsProp {
 // refactor this ASAP into a mongo query that only returns
 // the post with the id in the url params
 const Post = async ({ params }: ParamsProp) => {
-  const data = await fetch(`http://localhost:3000/api/posts`, {
+  const data = await fetch(`http://localhost:3000/api/posts/${params.id}`, {
     cache: "no-store",
   });
 
@@ -22,11 +22,9 @@ const Post = async ({ params }: ParamsProp) => {
   }
 
   const res = await data.json();
-  const parsed: PostInterface[] = JSON.parse(res);
+  const parsed: PostInterface = JSON.parse(res);
 
-  const filtered = parsed.filter((obj) => obj._id === params.id);
-
-  const info = filtered[0];
+  const info = parsed;
 
   if (!info) {
     return notFound();
@@ -46,14 +44,16 @@ const Post = async ({ params }: ParamsProp) => {
                 role="img"
                 xmlns="http://www.w3.org/2000/svg"
                 width="40"
-                height="40">
+                height="40"
+              >
                 <mask
                   id=":rip:"
                   maskUnits="userSpaceOnUse"
                   x="0"
                   y="0"
                   width="36"
-                  height="36">
+                  height="36"
+                >
                   <rect width="36" height="36" fill="#FFFFFF" rx="72"></rect>
                 </mask>
                 <g mask="url(#:rip:)">
@@ -65,13 +65,15 @@ const Post = async ({ params }: ParamsProp) => {
                     height="36"
                     transform="translate(4 4) rotate(340 18 18) scale(1.1)"
                     fill="#6edb7a"
-                    rx="36"></rect>
+                    rx="36"
+                  ></rect>
                   <g transform="translate(-4 -1) rotate(0 18 18)">
                     <path
                       d="M15 20c2 1 4 1 6 0"
                       stroke="#000000"
                       fill="none"
-                      stroke-linecap="round"></path>
+                      stroke-linecap="round"
+                    ></path>
                     <rect
                       x="14"
                       y="14"
@@ -79,7 +81,8 @@ const Post = async ({ params }: ParamsProp) => {
                       height="2"
                       rx="1"
                       stroke="none"
-                      fill="#000000"></rect>
+                      fill="#000000"
+                    ></rect>
                     <rect
                       x="20"
                       y="14"
@@ -87,7 +90,8 @@ const Post = async ({ params }: ParamsProp) => {
                       height="2"
                       rx="1"
                       stroke="none"
-                      fill="#000000"></rect>
+                      fill="#000000"
+                    ></rect>
                   </g>
                 </g>
               </svg>
@@ -100,7 +104,8 @@ const Post = async ({ params }: ParamsProp) => {
             src={info.img}
             alt="mountains"
             className="object-cover"
-            fill={true}></Image>
+            fill={true}
+          ></Image>
         </div>
       </div>
       <div>
