@@ -22,4 +22,5 @@ const PostSchema = new Schema<PostInterface>(
   { timestamps: true }
 );
 
-export default model<PostInterface>("Post", PostSchema);
+// prevents ModelOverride error
+export default model<PostInterface>("Post", PostSchema) || mongoose.models.Post;
