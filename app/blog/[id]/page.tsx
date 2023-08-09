@@ -8,12 +8,8 @@ interface ParamsProp {
   };
 }
 
-// this is insanely stupid
-//
-// refactor this ASAP into a mongo query that only returns
-// the post with the id in the url params
-const Post = async ({ params }: ParamsProp) => {
-  const data = await fetch(`http://localhost:3000/api/posts/${params.id}`, {
+const getData = async (id: string) => {
+  const data = await fetch(`http://localhost:3000/api/posts/${id}`, {
     cache: "no-store",
   });
 
@@ -29,7 +25,17 @@ const Post = async ({ params }: ParamsProp) => {
   if (!info) {
     return notFound();
   }
+  return info;
+};
 
+export async function generateMetadata({ params }: ParamsProp) {
+  return {
+    title: "wait",
+  };
+}
+
+const Post = async ({ params }: ParamsProp) => {
+  const info = await getData(params.id);
   return (
     <>
       <div className="flex flex-row gap-10 grow-0">
