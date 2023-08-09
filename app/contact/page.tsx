@@ -1,6 +1,11 @@
 import Button from "@/components/button/Button";
 import Image from "next/image";
 
+export const metadata = {
+  title: "dremt Contact Page",
+  description: "Let's get in touch!",
+};
+
 const Contact = () => {
   return (
     <div className="flex flex-row items-center gap-10 justify-between">
@@ -13,7 +18,8 @@ const Contact = () => {
             fill={true}
             src={"/contact.png"}
             alt="illustration of a woman speaking to a client"
-            className="animate-move"></Image>
+            className="animate-move"
+          ></Image>
         </div>
       </div>
       <form action="" className="basis-1/2">
@@ -35,7 +41,8 @@ const Contact = () => {
           cols={30}
           rows={10}
           placeholder="Type your message here..."
-          className="w-full p-2 rounded-md"></textarea>
+          className="w-full p-2 rounded-md"
+        ></textarea>
         <div className="flex justify-center">
           <Button url="#" text="Send"></Button>
         </div>
