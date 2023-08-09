@@ -1,8 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
+import { PostInterface } from "@/models/Post";
 
 async function getData() {
-  const res = await fetch("https://jsonplaceholder.typicode.com/posts", {
+  const res = await fetch("http://localhost:3000/api/posts", {
     next: { revalidate: 10 },
   });
 
@@ -10,18 +11,16 @@ async function getData() {
     throw new Error("failed to fetch data!");
   }
 
-  return res.json();
-}
-
-interface Post {
-  userId: number;
-  id: number;
-  title: string;
-  body: string;
+  const thing = res.json();
+  console.log(thing);
+  return thing;
 }
 
 const Blog = async () => {
-  const data: Post[] = await getData();
+  const received: string = await getData();
+  const data: PostInterface[] = JSON.parse(received);
+  console.log(typeof data);
+  console.log(data);
   return (
     <div className="my-8">
       <Link href={"blog/testId"}>
@@ -96,13 +95,11 @@ const Blog = async () => {
 
       {data.map((post) => {
         return (
-          <Link href={`blog/${post.id}`} key={post.id}>
+          <Link href={`blog/${post._id}`} key={post._id}>
             <div className="flex flex-row items-center gap-5 my-8">
               <div className="relative w-[400px] h-[250px] min-w-[400px] overflow-hidden rounded-lg max-w-[400px]">
                 <Image
-                  src={
-                    "https://images.pexels.com/photos/1115804/pexels-photo-1115804.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                  }
+                  src={post.img}
                   alt="design studio"
                   fill={true}
                   className="object-cover"></Image>
@@ -111,7 +108,7 @@ const Blog = async () => {
                 <h1 className="font-bold text-emerald-200 dark:text-emerald-800 text-2xl mb-2">
                   {post.title}
                 </h1>
-                <p>{post.body}</p>
+                <p>{post.desc}</p>
               </div>
             </div>
           </Link>
