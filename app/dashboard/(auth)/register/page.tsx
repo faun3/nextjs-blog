@@ -1,8 +1,49 @@
 "use client";
 
+import { headers } from "next/dist/client/components/headers";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+
+interface FormFields {
+  username: { value: string };
+  email: { value: string };
+  password: { value: string };
+}
 
 const Register = () => {
+  const [error, setError] = useState(false);
+
+  const router = useRouter();
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const target = e.target as typeof e.target & {
+      username: { value: string };
+      email: { value: string };
+      password: { value: string };
+    };
+
+    const username = target.username.value;
+    const email = target.email.value;
+    const password = target.password.value;
+
+    try {
+      const res = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, email, password }),
+      });
+
+      res.status === 201 &&
+        router.push("/dashboard/login?success=Account has been created");
+    } catch (err) {
+      setError(true);
+    }
+  };
+
   return (
     <div>
       <form className="flex flex-col max-w-[clamp(60%,60%,700px)] mx-auto">
@@ -42,6 +83,7 @@ const Register = () => {
           Register
         </button>
       </form>
+      {error && "Something went wrong"}
       <Link
         href={"/dashboard/login"}
         className=" text-slate-400 text-center w-full inline-block underline"
